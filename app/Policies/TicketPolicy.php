@@ -12,7 +12,7 @@ class TicketPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -20,7 +20,15 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket): bool
     {
-        return $user->id === $ticket->user_id;
+        return $user->id === $ticket->user_id || $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can assign the model to an admin user.
+     */
+    public function assign(User $user, Ticket $ticket): bool
+    {
+        return $user->isAdmin();
     }
 
     /**

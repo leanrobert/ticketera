@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -26,6 +27,7 @@ use Illuminate\Support\Str;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @property Role $role
  */
 #[Fillable(['name', 'email', 'password', 'role'])]
@@ -33,7 +35,7 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
@@ -55,6 +57,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Count how many admin accounts are still active (not soft-deleted).
+     */
+    public static function activeAdminCount(): int
+    {
+        return static::role(Role::Admin->value)->count();
+    }
+
+    /**
+     * Count how many client accounts are still active (not soft-deleted).
+     */
+    public static function activeClientCount(): int
+    {
+        return static::role(Role::Client->value)->count();
+    }
+
+    /**
      * Get the user's initials
      */
     public function initials(): string
@@ -69,11 +87,6 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === Role::Admin;
-    }
-
-    public function isSupport(): bool
-    {
-        return $this->role === Role::Support;
     }
 
     public function isClient(): bool

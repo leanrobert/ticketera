@@ -18,7 +18,7 @@ new class extends Component
         $this->validate([
             'title' => 'required|string|min:5|max:255',
             'description' => 'required|string|min:10',
-            'priority' => 'required|in:low,medium,high',
+            'priority' => 'required|in:low,medium,high,urgent',
             'images' => 'required|array|min:1|max:5',
             'images.*' => 'image|max:2048', // Each image must be an image file and not exceed 2MB
         ]);
@@ -69,6 +69,7 @@ new class extends Component
             <flux:select.option value="low">Baja</flux:select.option>
             <flux:select.option value="medium">Media</flux:select.option>
             <flux:select.option value="high">Alta</flux:select.option>
+            <flux:select.option value="urgent">Urgente</flux:select.option>
         </flux:select>
 
         <flux:field>

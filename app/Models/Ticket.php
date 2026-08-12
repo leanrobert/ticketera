@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['user_id', 'title', 'description', 'priority'])]
+#[Fillable(['user_id', 'title', 'description', 'priority', 'assigned_to'])]
 
 class Ticket extends Model
 {
@@ -67,6 +67,11 @@ class Ticket extends Model
         $query->where('priority', $priority);
     }
 
+    protected function scopeUnassigned($query): void
+    {
+        $query->whereNull('assigned_to');
+    }
+
     public function statusColor(): string
     {
         return match ($this->status) {
@@ -95,6 +100,7 @@ class Ticket extends Model
             'low' => __('Baja'),
             'medium' => __('Media'),
             'high' => __('Alta'),
+            'urgent' => __('Urgente'),
             default => __('Desconocida'),
         };
     }
@@ -105,6 +111,7 @@ class Ticket extends Model
             'low' => svg('hugeicons-signal-low-02', 'text-green-500')->toHtml(),
             'medium' => svg('hugeicons-signal-medium-02', 'text-yellow-500')->toHtml(),
             'high' => svg('hugeicons-signal-full-02', 'text-red-500')->toHtml(),
+            'urgent' => svg('hugeicons-alert-02', 'text-fuchsia-600')->toHtml(),
             default => svg('hugeicons-signal-low-02', 'text-gray-500')->toHtml(),
         };
     }

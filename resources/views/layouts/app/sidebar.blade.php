@@ -20,14 +20,33 @@
 
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item
-                        icon="ticket"
-                        :href="route('ticket.index')"
-                        :current="request()->routeIs('ticket.index')"
-                        wire:navigate
-                    >
-                        {{ __("Tickets") }}
-                    </flux:sidebar.item>
+                    @if (auth()->user()->isAdmin())
+                        <flux:sidebar.item
+                            icon="ticket"
+                            :href="route('admin.tickets')"
+                            :current="request()->routeIs('admin.tickets')"
+                            wire:navigate
+                        >
+                            {{ __('Tickets') }}
+                        </flux:sidebar.item>
+                        <flux:sidebar.item
+                            icon="users"
+                            :href="route('admin.users')"
+                            :current="request()->routeIs('admin.users')"
+                            wire:navigate
+                        >
+                            {{ __('Usuarios') }}
+                        </flux:sidebar.item>
+                    @else
+                        <flux:sidebar.item
+                            icon="ticket"
+                            :href="route('ticket.index')"
+                            :current="request()->routeIs('ticket.index')"
+                            wire:navigate
+                        >
+                            {{ __("Tickets") }}
+                        </flux:sidebar.item>
+                    @endif
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 

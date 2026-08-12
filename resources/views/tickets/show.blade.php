@@ -5,7 +5,7 @@
                 <flux:button href="{{ route('ticket.index') }}" wire:navigate variant="ghost" size="sm" icon="arrow-left">
                     {{ __('Volver a mis tickets') }}
                 </flux:button>
-                <h1 class="mt-2 text-xl font-semibold">{{ $ticket->title }}</h1>
+                <flux:heading size="lg">{{ $ticket->title }}</flux:heading>
                 <p class="text-sm text-neutral-500">{{ $ticket->description }}</p>
             </div>
             <div class="flex items-center gap-2">

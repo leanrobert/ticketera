@@ -26,6 +26,16 @@ test('a client cannot view another client\'s ticket', function () {
         ->assertForbidden();
 });
 
+test('an admin can view any ticket', function () {
+    $admin = User::factory()->admin()->create();
+    $ticket = Ticket::factory()->create();
+
+    $this->actingAs($admin)
+        ->get(route('ticket.show', $ticket))
+        ->assertOk()
+        ->assertSee($ticket->title);
+});
+
 test('a client can send a message on their ticket', function () {
     $user = User::factory()->create();
     $ticket = Ticket::factory()->for($user)->create();

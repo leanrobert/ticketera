@@ -22,7 +22,7 @@ class TicketFactory extends Factory
             'user_id' => User::factory(),
             'title' => fake()->sentence(6),
             'description' => fake()->paragraph(),
-            'priority' => fake()->randomElement(['low', 'medium', 'high']),
+            'priority' => fake()->randomElement(['low', 'medium', 'high', 'urgent']),
             'status' => fake()->randomElement(['open', 'in_progress', 'resolved', 'closed']),
             'assigned_to' => null,
         ];
