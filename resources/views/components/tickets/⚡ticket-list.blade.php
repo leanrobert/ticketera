@@ -37,8 +37,9 @@ new class extends Component
 
         return [
             'tickets' => auth()->user()->tickets()
+                ->where('status', '!=', 'closed')
                 ->orderBy($sortBy, $sortDirection)
-                ->paginate(10),
+                ->paginate(14),
             'sortBy' => $sortBy,
             'sortDirection' => $sortDirection,
         ];

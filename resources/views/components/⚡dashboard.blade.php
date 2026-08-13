@@ -30,6 +30,7 @@ new class extends Component
         return [
             'isAdmin' => false,
             'openCount' => (clone $myTickets)->open()->count(),
+            'closedCount' => (clone $myTickets)->closed()->count(),
             'ticketsByPriority' => (clone $myTickets)
                 ->selectRaw('priority, count(*) as total')
                 ->groupBy('priority')
@@ -90,10 +91,15 @@ new class extends Component
             </div>
         </div>
     @else
-        <div class="grid gap-4 md:grid-cols-2">
+        <div class="grid gap-4 md:grid-cols-3">
             <div class="rounded-xl border border-neutral-200 p-4 dark:border-neutral-700">
                 <flux:heading size="sm">{{ __('Mis tickets abiertos') }}</flux:heading>
                 <p class="mt-3 text-2xl font-semibold">{{ $openCount }}</p>
+            </div>
+
+            <div class="rounded-xl border border-neutral-200 p-4 dark:border-neutral-700">
+                <flux:heading size="sm">{{ __('Mis tickets cerrados') }}</flux:heading>
+                <p class="mt-3 text-2xl font-semibold">{{ $closedCount }}</p>
             </div>
 
             <div class="rounded-xl border border-neutral-200 p-4 dark:border-neutral-700">

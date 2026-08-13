@@ -1,14 +1,28 @@
-<x-layouts::auth :title="__('Reset password')">
+<x-layouts::auth :title="__('Resetear contraseña')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
+        <x-auth-header
+            :title="__('Resetear contraseña')"
+            :description="__('Por favor, ingresa tu nueva contraseña a continuación')"
+        />
 
         <!-- Session Status -->
-        <x-auth-session-status class="text-center" :status="session('status')" />
+        <x-auth-session-status
+            class="text-center"
+            :status="session('status')"
+        />
 
-        <form method="POST" action="{{ route('password.update') }}" class="flex flex-col gap-6">
+        <form
+            method="POST"
+            action="{{ route('password.update') }}"
+            class="flex flex-col gap-6"
+        >
             @csrf
             <!-- Token -->
-            <input type="hidden" name="token" value="{{ request()->route('token') }}">
+            <input
+                type="hidden"
+                name="token"
+                value="{{ request()->route('token') }}"
+            />
 
             <!-- Email Address -->
             <flux:input
@@ -23,11 +37,11 @@
             <!-- Password -->
             <flux:input
                 name="password"
-                :label="__('Password')"
+                :label="__('Contraseña')"
                 type="password"
                 required
                 autocomplete="new-password"
-                :placeholder="__('Password')"
+                :placeholder="__('Contraseña')"
                 passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                 viewable
             />
@@ -35,18 +49,23 @@
             <!-- Confirm Password -->
             <flux:input
                 name="password_confirmation"
-                :label="__('Confirm password')"
+                :label="__('Confirmar contraseña')"
                 type="password"
                 required
                 autocomplete="new-password"
-                :placeholder="__('Confirm password')"
+                :placeholder="__('Confirmar contraseña')"
                 passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                 viewable
             />
 
             <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full" data-test="reset-password-button">
-                    {{ __('Reset password') }}
+                <flux:button
+                    type="submit"
+                    variant="primary"
+                    class="w-full"
+                    data-test="reset-password-button"
+                >
+                    {{ __("Resetear contraseña") }}
                 </flux:button>
             </div>
         </form>

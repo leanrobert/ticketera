@@ -62,6 +62,11 @@ class Ticket extends Model
         $query->where('status', 'open');
     }
 
+    protected function scopeClosed($query): void
+    {
+        $query->where('status', 'closed');
+    }
+
     protected function scopeByPriority($query, string $priority): void
     {
         $query->where('priority', $priority);
@@ -110,8 +115,8 @@ class Ticket extends Model
         return match ($this->priority) {
             'low' => svg('hugeicons-signal-low-02', 'text-green-500')->toHtml(),
             'medium' => svg('hugeicons-signal-medium-02', 'text-yellow-500')->toHtml(),
-            'high' => svg('hugeicons-signal-full-02', 'text-red-500')->toHtml(),
-            'urgent' => svg('hugeicons-alert-02', 'text-fuchsia-600')->toHtml(),
+            'high' => svg('hugeicons-signal-full-02', 'text-orange-500')->toHtml(),
+            'urgent' => svg('hugeicons-alert-02', 'text-red-500')->toHtml(),
             default => svg('hugeicons-signal-low-02', 'text-gray-500')->toHtml(),
         };
     }

@@ -19,7 +19,7 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                <flux:sidebar.group :heading="__('Plataforma')" class="grid">
                     @if (auth()->user()->isAdmin())
                         <flux:sidebar.item
                             icon="ticket"
@@ -105,7 +105,7 @@
                             icon="cog"
                             wire:navigate
                         >
-                            {{ __("Settings") }}
+                            {{ __("Herramientas") }}
                         </flux:menu.item>
                     </flux:menu.radio.group>
 
@@ -124,7 +124,7 @@
                             class="w-full cursor-pointer"
                             data-test="logout-button"
                         >
-                            {{ __("Log out") }}
+                            {{ __("Logout") }}
                         </flux:menu.item>
                     </form>
                 </flux:menu>
