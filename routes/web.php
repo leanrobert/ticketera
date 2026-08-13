@@ -15,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'role:client'])->prefix('tickets')->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('ticket.index');
     Route::get('/create', [TicketController::class, 'create'])->name('ticket.create');
+    Route::get('/closed', [TicketController::class, 'closed'])->name('ticket.closed');
 });
 
 /* TICKET DETAIL (shared across roles, authorized via TicketPolicy::view) */

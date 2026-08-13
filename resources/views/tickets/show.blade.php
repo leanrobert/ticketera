@@ -1,17 +1,58 @@
 <x-layouts::app :title="$ticket->title">
     <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <div class="flex items-center justify-between">
-            <div>
-                <flux:button href="{{ route('ticket.index') }}" wire:navigate variant="ghost" size="sm" icon="arrow-left">
-                    {{ __('Volver a mis tickets') }}
+        <div class="flex flex-col items-start justify-between gap-3">
+            <div class="flex items-center justify-between gap-2 w-full">
+                <div class="flex gap-2">
+                    <flux:heading size="lg">{{ $ticket->title }}</flux:heading>
+                    <flux:badge
+                        size="sm"
+                        :color="$ticket->statusColor()"
+                    >
+                        {{ $ticket->statusLabel() }}
+                    </flux:badge>
+                </div>
+                <flux:button
+                    href="{{ route('ticket.index') }}"
+                    wire:navigate
+                    variant="ghost"
+                    size="sm"
+                    icon="arrow-left"
+                >
+                    {{ __("Volver a mis tickets") }}
                 </flux:button>
-                <flux:heading size="lg">{{ $ticket->title }}</flux:heading>
-                <p class="text-sm text-neutral-500">{{ $ticket->description }}</p>
             </div>
+            <p class="text-base text-neutral-600 dark:text-neutral-300 mb-3">
+                {{ $ticket->description }}
+            </p>
+            @if ($ticket->images->isNotEmpty())
+                <div class="flex flex-wrap gap-2">
+                    @foreach ($ticket->images as $image)
+                        <flux:modal.trigger name="ticket-image-{{ $image->id }}">
+                            <button type="button">
+                                <img
+                                    src="{{ $image->getImageUrlAttribute() }}"
+                                    alt="{{ $ticket->title }}"
+                                    class="h-20 w-20 rounded-lg object-cover"
+                                />
+                            </button>
+                        </flux:modal.trigger>
+
+                        <flux:modal name="ticket-image-{{ $image->id }}" class="max-w-3xl">
+                            <img
+                                src="{{ $image->getImageUrlAttribute() }}"
+                                alt="{{ $ticket->title }}"
+                                class="max-h-[80vh] w-full rounded-lg object-contain"
+                            />
+                        </flux:modal>
+                    @endforeach
+                </div>
+            @endif
             <div class="flex items-center gap-2">
-                <flux:badge size="sm" :color="$ticket->statusColor()">{{ $ticket->statusLabel() }}</flux:badge>
+
             </div>
         </div>
+
+
 
         <livewire:tickets.ticket-chat :ticket="$ticket" />
     </div>

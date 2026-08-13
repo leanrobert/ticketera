@@ -8,6 +8,8 @@ new class extends Component
 {
     use WithPagination;
 
+    public string $statusFilter = 'open';
+
     #[Url]
     public string $sortBy = 'created_at';
 
@@ -35,11 +37,18 @@ new class extends Component
         $sortBy = in_array($this->sortBy, ['priority', 'created_at'], true) ? $this->sortBy : 'created_at';
         $sortDirection = $this->sortDirection === 'asc' ? 'asc' : 'desc';
 
+        $query = auth()->user()->tickets();
+
+        if ($this->statusFilter === 'closed') {
+            $query->closed();
+        } else {
+            $query->where('status', '!=', 'closed');
+        }
+
         return [
-            'tickets' => auth()->user()->tickets()
-                ->where('status', '!=', 'closed')
+            'tickets' => $query
                 ->orderBy($sortBy, $sortDirection)
-                ->paginate(14),
+                ->paginate(10),
             'sortBy' => $sortBy,
             'sortDirection' => $sortDirection,
         ];
@@ -51,8 +60,12 @@ new class extends Component
     @if ($tickets->isEmpty())
         <div class="flex flex-col items-center justify-center gap-2 rounded-lg border border-neutral-200 p-8 dark:border-neutral-700">
             <x-heroicon-o-ticket style="width: 200px;" class="mx-auto text-neutral-400" />
-            <p class="text-center text-sm text-neutral-500">{{ __('No tienes ningún ticket.') }}</p>
-            <p class="text-center text-xs text-neutral-100">{{ __('Haz clic en "Nuevo ticket" para crear uno.') }}</p>
+            @if ($statusFilter === 'closed')
+                <p class="text-center text-sm text-neutral-500">{{ __('No tienes tickets cerrados.') }}</p>
+            @else
+                <p class="text-center text-sm text-neutral-500">{{ __('No tienes ningún ticket.') }}</p>
+                <p class="text-center text-xs text-neutral-100">{{ __('Haz clic en "Nuevo ticket" para crear uno.') }}</p>
+            @endif
         </div>
     @else
         <flux:table :paginate="$tickets">

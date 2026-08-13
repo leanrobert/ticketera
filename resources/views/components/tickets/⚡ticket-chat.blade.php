@@ -33,7 +33,7 @@ new class extends Component
 ?>
 
 <div class="flex flex-1 flex-col gap-4 rounded-xl border border-neutral-200 p-4 dark:border-neutral-700" wire:poll.5s>
-    <div class="flex flex-col gap-3 overflow-y-auto" style="max-height: 28rem;">
+    <div class="flex flex-col gap-3 overflow-y-auto" style="max-height: 33rem;">
         @forelse ($messages as $message)
             <div @class([
                 'max-w-[75%] rounded-lg px-3 py-2 text-sm',
@@ -49,7 +49,7 @@ new class extends Component
         @endforelse
     </div>
 
-    <form wire:submit.prevent="send" class="flex items-start gap-2 border-t border-neutral-200 pt-3 dark:border-neutral-700">
+    <form wire:submit.prevent="send" class="mt-auto flex items-start gap-2 border-t border-neutral-200 pt-3 dark:border-neutral-700">
         <flux:field class="flex-1">
             <flux:textarea wire:model="body" rows="2" placeholder="{{ __('Escribí tu mensaje...') }}" />
             <flux:error name="body" />

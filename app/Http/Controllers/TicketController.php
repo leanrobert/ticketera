@@ -13,6 +13,11 @@ class TicketController extends Controller
         return view('tickets.index');
     }
 
+    public function closed(): View
+    {
+        return view('tickets.closed');
+    }
+
     public function create(): View
     {
         return view('tickets.create');
